@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">
+  <rect x="0" y="0" width="1600" height="900" fill="#ffffff"/>
+
+  <text x="60" y="58" font-size="34" font-weight="700" fill="#1f2933">Spending the same $1000 twice</text>
+  <text x="60" y="94" font-size="19" fill="#667085">Expert 8 (sanitized CTF) &#183; a non-atomic check and debit, with the agent as the scheduler</text>
+
+  <!-- LEFT: ATTACK CHAIN -->
+  <rect x="40" y="125" width="900" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="64" y="168" font-size="20" font-weight="700" fill="#1f2933">ATTACK CHAIN</text>
+  <text x="916" y="168" text-anchor="end" font-size="16" fill="#667085">$1000 budget &#8594; two fragments</text>
+
+  <rect x="64" y="190" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="244" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="253" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">1</text>
+  <text x="160" y="230" font-size="20" font-weight="600" fill="#1f2933">Create two orders, no funds reserved</text>
+  <text x="160" y="260" font-size="15.5" fill="#667085">Fragment_A and Fragment_B, both at price 1000.</text>
+  <text x="160" y="283" font-size="15.5" fill="#667085">Balance stays $1000.00, so any check sits at execute time.</text>
+
+  <line x1="112" y1="298" x2="112" y2="326" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,336 106,324 118,324" fill="#c0392b"/>
+
+  <rect x="64" y="338" width="852" height="108" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <circle cx="112" cy="392" r="26" fill="#fdecec" stroke="#c0392b" stroke-width="2"/>
+  <text x="112" y="401" text-anchor="middle" font-size="24" font-weight="700" fill="#b02a2a">2</text>
+  <text x="160" y="378" font-size="20" font-weight="600" fill="#1f2933">Agent fires both executions in parallel</text>
+  <text x="160" y="408" font-size="15.5" fill="#667085">Told to skip its own fund check, the agent issues two</text>
+  <text x="160" y="431" font-size="15.5" fill="#b02a2a" font-weight="600">simultaneous execute_order calls. Both read $1000 first.</text>
+
+  <line x1="112" y1="446" x2="112" y2="474" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,484 106,472 118,472" fill="#c0392b"/>
+
+  <rect x="64" y="486" width="852" height="96" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <circle cx="112" cy="534" r="26" fill="#fdecec" stroke="#c0392b" stroke-width="2"/>
+  <text x="112" y="543" text-anchor="middle" font-size="24" font-weight="700" fill="#b02a2a">3</text>
+  <text x="160" y="526" font-size="20" font-weight="600" fill="#1f2933">Both pass, balance goes to minus $1000</text>
+  <text x="160" y="556" font-size="15.5" fill="#b02a2a" font-weight="600">DUAL FRAGMENTS DETECTED &#8594; flag. The check and debit are not atomic.</text>
+
+  <line x1="112" y1="582" x2="112" y2="610" stroke="#2563a0" stroke-width="2.5"/>
+  <polygon points="112,620 106,608 118,608" fill="#2563a0"/>
+
+  <rect x="64" y="622" width="852" height="120" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="682" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="691" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">4</text>
+  <text x="160" y="666" font-size="20" font-weight="600" fill="#1f2933">Two controls settle the mechanism</text>
+  <text x="160" y="696" font-size="15.5" fill="#667085">price: 2000 alone is rejected, so a real check exists (TOCTOU race).</text>
+  <text x="160" y="719" font-size="15.5" fill="#667085">price: 0 alone still unlocks, so the price is client-supplied.</text>
+
+  <text x="64" y="784" font-size="15" fill="#667085">The guard lived in the model, not the backend. The agent dropped its own check the moment it was told</text>
+  <text x="64" y="808" font-size="15" fill="#667085">to, so sequencing requested from the model is not a control.</text>
+
+  <!-- RIGHT: MISSING CONTROLS -->
+  <rect x="960" y="125" width="600" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="984" y="168" font-size="20" font-weight="700" fill="#1f2933">THREE MISSING CONTROLS</text>
+
+  <rect x="984" y="192" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="228" font-size="18" font-weight="700" fill="#b02a2a">Non-atomic check and debit</text>
+  <text x="1008" y="256" font-size="15.5" fill="#667085">Two steps with no lock or transaction. Both</text>
+  <text x="1008" y="277" font-size="15.5" fill="#667085">executions read $1000 before either debit</text>
+  <text x="1008" y="298" font-size="15.5" fill="#667085">landed (CWE-367, CWE-362).</text>
+
+  <rect x="984" y="340" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="376" font-size="18" font-weight="700" fill="#b02a2a">No non-negative constraint</text>
+  <text x="1008" y="404" font-size="15.5" fill="#667085">The balance reached minus $1000. One data-layer</text>
+  <text x="1008" y="425" font-size="15.5" fill="#667085">constraint would have stopped the second debit</text>
+  <text x="1008" y="446" font-size="15.5" fill="#667085">even without locking.</text>
+
+  <rect x="984" y="488" width="552" height="120" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="524" font-size="18" font-weight="700" fill="#b02a2a">Client-supplied price</text>
+  <text x="1008" y="552" font-size="15.5" fill="#667085">create_order trusts the price argument. A $0</text>
+  <text x="1008" y="573" font-size="15.5" fill="#667085">order unlocks the goal, because the check counts</text>
+  <text x="1008" y="594" font-size="15.5" fill="#667085">fragments owned, not value paid (CWE-472).</text>
+
+  <rect x="984" y="640" width="552" height="150" rx="10" fill="#eaf6ee" stroke="#3f9d5a" stroke-width="1.5"/>
+  <text x="1008" y="676" font-size="17" font-weight="700" fill="#2f7d47">The fix</text>
+  <text x="1008" y="704" font-size="15" fill="#3a6b49">One atomic check-and-debit: UPDATE ... SET balance</text>
+  <text x="1008" y="725" font-size="15" fill="#3a6b49">= balance - price WHERE id = ? AND balance &gt;= price.</text>
+  <text x="1008" y="746" font-size="15" fill="#3a6b49">Reserve funds at creation, add a non-negative</text>
+  <text x="1008" y="767" font-size="15" fill="#3a6b49">constraint, take price from the server catalog.</text>
+
+  <text x="60" y="866" font-size="14" fill="#98a2b3">Public CTF (ARKX Mothership), played as a participant. No third-party data. github.com/le0n3das/ai-agent-attacks</text>
+</svg>

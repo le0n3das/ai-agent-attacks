@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">
+  <rect x="0" y="0" width="1600" height="900" fill="#ffffff"/>
+
+  <text x="60" y="58" font-size="34" font-weight="700" fill="#1f2933">YAML that turns into code</text>
+  <text x="60" y="94" font-size="19" fill="#667085">Expert 6 (sanitized CTF) &#183; a config tool on PyYAML's unsafe loader, exfiltration shaped to the output</text>
+
+  <!-- LEFT: ATTACK CHAIN -->
+  <rect x="40" y="125" width="900" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="64" y="168" font-size="20" font-weight="700" fill="#1f2933">ATTACK CHAIN</text>
+  <text x="916" y="168" text-anchor="end" font-size="16" fill="#667085">config string &#8594; code execution</text>
+
+  <rect x="64" y="190" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="244" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="253" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">1</text>
+  <text x="160" y="230" font-size="20" font-weight="600" fill="#1f2933">Identify the library</text>
+  <text x="160" y="260" font-size="15.5" fill="#667085">!!python/tuple parses; !custom_tag errors with</text>
+  <text x="160" y="283" font-size="15.5" fill="#667085">"could not determine a constructor" &#8594; PyYAML.</text>
+
+  <line x1="112" y1="298" x2="112" y2="326" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,336 106,324 118,324" fill="#c0392b"/>
+
+  <rect x="64" y="338" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="392" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="401" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">2</text>
+  <text x="160" y="378" font-size="20" font-weight="600" fill="#1f2933">Confirm the unsafe loader, harmlessly</text>
+  <text x="160" y="408" font-size="15.5" fill="#667085">!!python/object/apply:time.time [] runs. apply of a</text>
+  <text x="160" y="431" font-size="15.5" fill="#667085">callable means UnsafeLoader, not FullLoader.</text>
+
+  <line x1="112" y1="446" x2="112" y2="474" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,484 106,472 118,472" fill="#c0392b"/>
+
+  <rect x="64" y="486" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="540" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="549" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">3</text>
+  <text x="160" y="526" font-size="20" font-weight="600" fill="#1f2933">Shape output to the channel</text>
+  <text x="160" y="556" font-size="15.5" fill="#667085">The tool prints key names, never values. The payload</text>
+  <text x="160" y="579" font-size="15.5" fill="#667085">has to produce a dict and put data into the keys.</text>
+
+  <line x1="112" y1="594" x2="112" y2="622" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,632 106,620 118,620" fill="#c0392b"/>
+
+  <rect x="64" y="634" width="852" height="108" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <circle cx="112" cy="688" r="26" fill="#fdecec" stroke="#c0392b" stroke-width="2"/>
+  <text x="112" y="697" text-anchor="middle" font-size="24" font-weight="700" fill="#b02a2a">4</text>
+  <text x="160" y="674" font-size="20" font-weight="600" fill="#1f2933">Execute and read</text>
+  <text x="160" y="704" font-size="15.5" fill="#667085">apply:builtins.eval ["dict.fromkeys(os.listdir('.'))"] lists files.</text>
+  <text x="160" y="727" font-size="15.5" fill="#b02a2a" font-weight="600">eval ["{open('flag.txt').read(): 1}"] returns the flag as a key.</text>
+
+  <text x="64" y="784" font-size="15" fill="#667085">Root cause: a config parser on PyYAML's unsafe loader is an arbitrary-code evaluator. python/object/apply</text>
+  <text x="64" y="808" font-size="15" fill="#667085">tags call arbitrary Python during parsing, so a config field is code.</text>
+
+  <!-- RIGHT: MECHANISM -->
+  <rect x="960" y="125" width="600" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="984" y="168" font-size="20" font-weight="700" fill="#1f2933">TWO LAYERS, ONE DEFECT</text>
+
+  <rect x="984" y="192" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="228" font-size="18" font-weight="700" fill="#b02a2a">Unsafe deserialization</text>
+  <text x="1008" y="256" font-size="15.5" fill="#667085">yaml.load with the unsafe loader resolves</text>
+  <text x="1008" y="277" font-size="15.5" fill="#667085">!!python/object tags, which run arbitrary</text>
+  <text x="1008" y="298" font-size="15.5" fill="#667085">Python during parsing (CWE-502).</text>
+
+  <rect x="984" y="340" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="376" font-size="18" font-weight="700" fill="#b02a2a">Echoed key names</text>
+  <text x="1008" y="404" font-size="15.5" fill="#667085">The summary prints parsed key names unchecked.</text>
+  <text x="1008" y="425" font-size="15.5" fill="#667085">It carries data only because code execution</text>
+  <text x="1008" y="446" font-size="15.5" fill="#667085">lets the attacker choose the keys.</text>
+
+  <rect x="984" y="488" width="552" height="120" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="524" font-size="18" font-weight="700" fill="#b02a2a">Result: remote code execution</text>
+  <text x="1008" y="552" font-size="15.5" fill="#667085">Same class as the eval and command-injection</text>
+  <text x="1008" y="573" font-size="15.5" fill="#667085">levels, reached through deserialization. The</text>
+  <text x="1008" y="594" font-size="15.5" fill="#667085">narrow key channel only shapes exfiltration.</text>
+
+  <rect x="984" y="640" width="552" height="150" rx="10" fill="#eaf6ee" stroke="#3f9d5a" stroke-width="1.5"/>
+  <text x="1008" y="676" font-size="17" font-weight="700" fill="#2f7d47">The fix</text>
+  <text x="1008" y="704" font-size="15" fill="#3a6b49">Parse with yaml.safe_load only. SafeLoader</text>
+  <text x="1008" y="725" font-size="15" fill="#3a6b49">resolves no Python tags. Run the tool with no</text>
+  <text x="1008" y="746" font-size="15" fill="#3a6b49">secrets. Do not echo parsed structure, key names</text>
+  <text x="1008" y="767" font-size="15" fill="#3a6b49">included, without classifying it.</text>
+
+  <text x="60" y="866" font-size="14" fill="#98a2b3">Public CTF (ARKX Mothership), played as a participant. No third-party data. github.com/le0n3das/ai-agent-attacks</text>
+</svg>

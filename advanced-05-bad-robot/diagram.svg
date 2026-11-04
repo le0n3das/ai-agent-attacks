@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">
+  <rect x="0" y="0" width="1600" height="900" fill="#ffffff"/>
+
+  <text x="60" y="58" font-size="34" font-weight="700" fill="#1f2933">A calculator that runs eval()</text>
+  <text x="60" y="94" font-size="19" fill="#667085">Advanced 5 (sanitized CTF) &#183; a math tool backed by Python eval(), two denylist controls bypassed separately</text>
+
+  <!-- LEFT: ATTACK CHAIN -->
+  <rect x="40" y="125" width="900" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="64" y="168" font-size="20" font-weight="700" fill="#1f2933">ATTACK CHAIN</text>
+  <text x="916" y="168" text-anchor="end" font-size="16" fill="#667085">math expression &#8594; code execution</text>
+
+  <rect x="64" y="190" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="244" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="253" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">1</text>
+  <text x="160" y="230" font-size="20" font-weight="600" fill="#1f2933">Fingerprint the backend</text>
+  <text x="160" y="260" font-size="15.5" fill="#667085">len(str(2**100)) returned 31. Non-math builtins run,</text>
+  <text x="160" y="283" font-size="15.5" fill="#667085">so the tool evaluates the expression with Python eval().</text>
+
+  <line x1="112" y1="298" x2="112" y2="326" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,336 106,324 118,324" fill="#c0392b"/>
+
+  <rect x="64" y="338" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="392" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="401" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">2</text>
+  <text x="160" y="378" font-size="20" font-weight="600" fill="#1f2933">Map two controls, one probe each</text>
+  <text x="160" y="408" font-size="15.5" fill="#667085">'os' &#8594; prohibited values (input substring denylist).</text>
+  <text x="160" y="431" font-size="15.5" fill="#667085">non-numeric result &#8594; output format not supported.</text>
+
+  <line x1="112" y1="446" x2="112" y2="474" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,484 106,472 118,472" fill="#c0392b"/>
+
+  <rect x="64" y="486" width="852" height="96" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="534" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="543" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">3</text>
+  <text x="160" y="526" font-size="20" font-weight="600" fill="#1f2933">Beat the input filter</text>
+  <text x="160" y="556" font-size="15.5" fill="#667085">Build the blocked token at runtime: 'o'+'s', chr(95)*2.</text>
+
+  <line x1="112" y1="582" x2="112" y2="610" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,620 106,608 118,608" fill="#c0392b"/>
+
+  <rect x="64" y="622" width="852" height="120" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <circle cx="112" cy="682" r="26" fill="#fdecec" stroke="#c0392b" stroke-width="2"/>
+  <text x="112" y="691" text-anchor="middle" font-size="24" font-weight="700" fill="#b02a2a">4</text>
+  <text x="160" y="666" font-size="20" font-weight="600" fill="#1f2933">Beat the output filter and exfiltrate</text>
+  <text x="160" y="696" font-size="15.5" fill="#667085">int.from_bytes(str(...).encode(),'big') returns one integer.</text>
+  <text x="160" y="719" font-size="15.5" fill="#b02a2a" font-weight="600">Decode locally to recover the directory listing, then the flag.</text>
+
+  <text x="64" y="784" font-size="15" fill="#667085">Root cause: a calculator that evaluates arbitrary expressions is a full interpreter. The agent forwards the</text>
+  <text x="64" y="808" font-size="15" fill="#667085">expression and classifies nothing, so the only defenses were two denylists inside the tool.</text>
+
+  <!-- RIGHT: TWO CONTROLS -->
+  <rect x="960" y="125" width="600" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="984" y="168" font-size="20" font-weight="700" fill="#1f2933">WHY EACH CONTROL FAILS</text>
+
+  <rect x="984" y="192" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="228" font-size="18" font-weight="700" fill="#b02a2a">Input substring denylist</text>
+  <text x="1008" y="256" font-size="15.5" fill="#667085">Matches raw substrings like 'os'.</text>
+  <text x="1008" y="282" font-size="15.5" fill="#667085">Runtime string construction rebuilds the</text>
+  <text x="1008" y="303" font-size="15.5" fill="#667085">same token and the filter never sees it (CWE-184).</text>
+
+  <rect x="984" y="340" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="376" font-size="18" font-weight="700" fill="#b02a2a">Numeric-only output filter</text>
+  <text x="1008" y="404" font-size="15.5" fill="#667085">Checks the type of the result, not its</text>
+  <text x="1008" y="425" font-size="15.5" fill="#667085">information content. Any data leaves as one</text>
+  <text x="1008" y="446" font-size="15.5" fill="#667085">integer, so it shapes exfiltration, not prevents it.</text>
+
+  <rect x="984" y="488" width="552" height="120" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="524" font-size="18" font-weight="700" fill="#b02a2a">Result: remote code execution</text>
+  <text x="1008" y="552" font-size="15.5" fill="#667085">Arbitrary Python runs in the tool process with</text>
+  <text x="1008" y="573" font-size="15.5" fill="#667085">its file-system access. Secrets, pivot, tampering</text>
+  <text x="1008" y="594" font-size="15.5" fill="#667085">follow in a real deployment.</text>
+
+  <rect x="984" y="640" width="552" height="150" rx="10" fill="#eaf6ee" stroke="#3f9d5a" stroke-width="1.5"/>
+  <text x="1008" y="676" font-size="17" font-weight="700" fill="#2f7d47">The fix</text>
+  <text x="1008" y="704" font-size="15" fill="#3a6b49">Parse with an AST allowlist of numeric nodes</text>
+  <text x="1008" y="725" font-size="15" fill="#3a6b49">and operators, or a math library. Never eval</text>
+  <text x="1008" y="746" font-size="15" fill="#3a6b49">user input. Run the tool with no secrets and</text>
+  <text x="1008" y="767" font-size="15" fill="#3a6b49">no file-system access.</text>
+
+  <text x="60" y="866" font-size="14" fill="#98a2b3">Public CTF (ARKX Mothership), played as a participant. No third-party data. github.com/le0n3das/ai-agent-attacks</text>
+</svg>

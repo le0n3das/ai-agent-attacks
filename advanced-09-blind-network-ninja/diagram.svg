@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">
+  <rect x="0" y="0" width="1600" height="900" fill="#ffffff"/>
+
+  <text x="60" y="58" font-size="34" font-weight="700" fill="#1f2933">Reading a flag through one bit</text>
+  <text x="60" y="94" font-size="19" fill="#667085">Advanced 9 (sanitized CTF) &#183; a connectivity tool that returns only Online or Offline, turned into an oracle</text>
+
+  <!-- LEFT: ATTACK CHAIN -->
+  <rect x="40" y="125" width="900" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="64" y="168" font-size="20" font-weight="700" fill="#1f2933">ATTACK CHAIN</text>
+  <text x="916" y="168" text-anchor="end" font-size="16" fill="#667085">one bit per call &#8594; full flag</text>
+
+  <rect x="64" y="190" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="244" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="253" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">1</text>
+  <text x="160" y="230" font-size="20" font-weight="600" fill="#1f2933">Fingerprint: the host reaches a shell</text>
+  <text x="160" y="260" font-size="15.5" fill="#667085">A dead host plus newline plus true returned Online.</text>
+  <text x="160" y="283" font-size="15.5" fill="#667085">A second command ran, and Online follows the exit code.</text>
+
+  <line x1="112" y1="298" x2="112" y2="326" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,336 106,324 118,324" fill="#c0392b"/>
+
+  <rect x="64" y="338" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="392" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="401" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">2</text>
+  <text x="160" y="378" font-size="20" font-weight="600" fill="#1f2933">Forgotten separator</text>
+  <text x="160" y="408" font-size="15.5" fill="#667085">; &amp;&amp; || $() and backticks are blocked.</text>
+  <text x="160" y="431" font-size="15.5" fill="#667085">A raw newline survives as the command separator.</text>
+
+  <line x1="112" y1="446" x2="112" y2="474" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,484 106,472 118,472" fill="#c0392b"/>
+
+  <rect x="64" y="486" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="540" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="549" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">3</text>
+  <text x="160" y="526" font-size="20" font-weight="600" fill="#1f2933">Build a yes/no oracle</text>
+  <text x="160" y="556" font-size="15.5" fill="#667085">dead host + test command. The test's exit code sets</text>
+  <text x="160" y="579" font-size="15.5" fill="#667085">Online or Offline. grep -q ^flag- flag.txt &#8594; Online.</text>
+
+  <line x1="112" y1="594" x2="112" y2="622" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,632 106,620 118,620" fill="#c0392b"/>
+
+  <rect x="64" y="634" width="852" height="108" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <circle cx="112" cy="688" r="26" fill="#fdecec" stroke="#c0392b" stroke-width="2"/>
+  <text x="112" y="697" text-anchor="middle" font-size="24" font-weight="700" fill="#b02a2a">4</text>
+  <text x="160" y="674" font-size="20" font-weight="600" fill="#1f2933">Extract one hex digit at a time</text>
+  <text x="160" y="704" font-size="15.5" fill="#667085">Anchored grep grows a literal pattern. Four bracket-class</text>
+  <text x="160" y="727" font-size="15.5" fill="#b02a2a" font-weight="600">probes carry four bits per digit. The brute runs in the agent's loop.</text>
+
+  <text x="64" y="784" font-size="15" fill="#667085">The agent is a pass-through: it never classified the host as hostile input. One bit per call is a complete</text>
+  <text x="64" y="808" font-size="15" fill="#667085">exfiltration channel when the attacker controls the condition.</text>
+
+  <!-- RIGHT: IN-BAND VS OUT-OF-BAND -->
+  <rect x="960" y="125" width="600" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="984" y="168" font-size="20" font-weight="700" fill="#1f2933">IN-BAND, NOT OUT-OF-BAND</text>
+
+  <rect x="984" y="192" width="552" height="150" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <text x="1008" y="228" font-size="18" font-weight="700" fill="#1f2933">The expected path</text>
+  <text x="1008" y="256" font-size="15.5" fill="#667085">Inject a command, suppress output, send the</text>
+  <text x="1008" y="277" font-size="15.5" fill="#667085">data to an attacker server over DNS or HTTP.</text>
+  <text x="1008" y="298" font-size="15.5" fill="#667085">It needs attacker infrastructure and an</text>
+  <text x="1008" y="319" font-size="15.5" fill="#667085">outbound connection.</text>
+
+  <rect x="984" y="358" width="552" height="150" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="394" font-size="18" font-weight="700" fill="#b02a2a">The path taken</text>
+  <text x="1008" y="422" font-size="15.5" fill="#667085">The tool's own Online/Offline reply is the</text>
+  <text x="1008" y="443" font-size="15.5" fill="#667085">channel. No attacker infrastructure, nothing</text>
+  <text x="1008" y="464" font-size="15.5" fill="#667085">leaves the platform. Egress filtering and DNS</text>
+  <text x="1008" y="485" font-size="15.5" fill="#667085">monitoring would not have seen it.</text>
+
+  <rect x="984" y="524" width="552" height="104" rx="10" fill="#fdf3e0" stroke="#d99a2b" stroke-width="1.5"/>
+  <text x="1008" y="560" font-size="18" font-weight="700" fill="#a86a12">The shared conclusion</text>
+  <text x="1008" y="588" font-size="15.5" fill="#8a6d3b">Both paths land on the same control: there is</text>
+  <text x="1008" y="609" font-size="15.5" fill="#8a6d3b">no safe return channel, so prevent the injection.</text>
+
+  <rect x="984" y="644" width="552" height="146" rx="10" fill="#eaf6ee" stroke="#3f9d5a" stroke-width="1.5"/>
+  <text x="1008" y="680" font-size="17" font-weight="700" fill="#2f7d47">The fix</text>
+  <text x="1008" y="708" font-size="15" fill="#3a6b49">Validate the host against a strict allowlist and</text>
+  <text x="1008" y="729" font-size="15" fill="#3a6b49">call ping through an argument vector with no</text>
+  <text x="1008" y="750" font-size="15" fill="#3a6b49">shell. Least privilege on the tool. A one-bit</text>
+  <text x="1008" y="771" font-size="15" fill="#3a6b49">return channel is not harmless.</text>
+
+  <text x="60" y="866" font-size="14" fill="#98a2b3">Public CTF (ARKX Mothership), played as a participant. No third-party data. github.com/le0n3das/ai-agent-attacks</text>
+</svg>

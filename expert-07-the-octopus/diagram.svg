@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">
+  <rect x="0" y="0" width="1600" height="900" fill="#ffffff"/>
+
+  <text x="60" y="58" font-size="34" font-weight="700" fill="#1f2933">A cache update that writes your session key</text>
+  <text x="60" y="94" font-size="19" fill="#667085">Expert 7 (sanitized CTF) &#183; a leaked admin key and an unauthenticated session-key write</text>
+
+  <!-- LEFT: ATTACK CHAIN -->
+  <rect x="40" y="125" width="900" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="64" y="168" font-size="20" font-weight="700" fill="#1f2933">ATTACK CHAIN</text>
+  <text x="916" y="168" text-anchor="end" font-size="16" fill="#667085">no privilege &#8594; root flag</text>
+
+  <rect x="64" y="190" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="244" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="253" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">1</text>
+  <text x="160" y="230" font-size="20" font-weight="600" fill="#1f2933">The error leaks the admin key</text>
+  <text x="160" y="260" font-size="15.5" fill="#667085">read_root_flag denied: "does not match the required</text>
+  <text x="160" y="283" font-size="15.5" fill="#667085">administrator key: 'GRANT_ROOT_READ_FOR_SESSION_778'".</text>
+
+  <line x1="112" y1="298" x2="112" y2="326" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,336 106,324 118,324" fill="#c0392b"/>
+
+  <rect x="64" y="338" width="852" height="108" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="392" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="401" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">2</text>
+  <text x="160" y="378" font-size="20" font-weight="600" fill="#1f2933">The argument is ignored</text>
+  <text x="160" y="408" font-size="15.5" fill="#667085">Passing the key as session_id changes nothing. The tool</text>
+  <text x="160" y="431" font-size="15.5" fill="#667085">reads an ambient session key, so that state must be written.</text>
+
+  <line x1="112" y1="446" x2="112" y2="474" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,484 106,472 118,472" fill="#c0392b"/>
+
+  <rect x="64" y="486" width="852" height="120" rx="10" fill="#ffffff" stroke="#e3e8ee" stroke-width="1.5"/>
+  <circle cx="112" cy="546" r="26" fill="#eef2f7" stroke="#2563a0" stroke-width="2"/>
+  <text x="112" y="555" text-anchor="middle" font-size="24" font-weight="700" fill="#2563a0">3</text>
+  <text x="160" y="530" font-size="20" font-weight="600" fill="#1f2933">The cache updater writes it verbatim</text>
+  <text x="160" y="560" font-size="15.5" fill="#667085">Gated only by a self-declared status: "SAFE". A truncated</text>
+  <text x="160" y="583" font-size="15.5" fill="#667085">upload showed the file content becomes the session key.</text>
+
+  <line x1="112" y1="606" x2="112" y2="634" stroke="#c0392b" stroke-width="2.5"/>
+  <polygon points="112,644 106,632 118,632" fill="#c0392b"/>
+
+  <rect x="64" y="646" width="852" height="96" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <circle cx="112" cy="694" r="26" fill="#fdecec" stroke="#c0392b" stroke-width="2"/>
+  <text x="112" y="703" text-anchor="middle" font-size="24" font-weight="700" fill="#b02a2a">4</text>
+  <text x="160" y="686" font-size="20" font-weight="600" fill="#1f2933">Upload the key, escalate, read</text>
+  <text x="160" y="716" font-size="15.5" fill="#b02a2a" font-weight="600">upload the admin key &#8594; cache update &#8594; read_root_flag &#8594; flag.</text>
+
+  <text x="64" y="784" font-size="15" fill="#667085">The clearance worker in the design never enforced anything. A privileged state write needed no real</text>
+  <text x="64" y="808" font-size="15" fill="#667085">authorization, and the privilege check trusted the state that write controls.</text>
+
+  <!-- RIGHT: GIFTS TO THE ATTACKER -->
+  <rect x="960" y="125" width="600" height="700" rx="16" fill="#fafbfc" stroke="#e3e8ee" stroke-width="2"/>
+  <text x="984" y="168" font-size="20" font-weight="700" fill="#1f2933">WHAT THE DESIGN GAVE AWAY</text>
+
+  <rect x="984" y="192" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="228" font-size="18" font-weight="700" fill="#b02a2a">Verbose error</text>
+  <text x="1008" y="256" font-size="15.5" fill="#667085">The permission denial returned the exact</text>
+  <text x="1008" y="277" font-size="15.5" fill="#667085">required admin key, so the attacker never had</text>
+  <text x="1008" y="298" font-size="15.5" fill="#667085">to guess it (CWE-209).</text>
+
+  <rect x="984" y="340" width="552" height="132" rx="10" fill="#ffffff" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="376" font-size="18" font-weight="700" fill="#b02a2a">Self-declared SAFE flag</text>
+  <text x="1008" y="404" font-size="15.5" fill="#667085">The one guard on the write was a status field</text>
+  <text x="1008" y="425" font-size="15.5" fill="#667085">inside the attacker's own manifest. The client</text>
+  <text x="1008" y="446" font-size="15.5" fill="#667085">declares its own request safe (CWE-807).</text>
+
+  <rect x="984" y="488" width="552" height="120" rx="10" fill="#fff9f9" stroke="#e6b8b3" stroke-width="1.5"/>
+  <text x="1008" y="524" font-size="18" font-weight="700" fill="#b02a2a">Unauthenticated session-key write</text>
+  <text x="1008" y="552" font-size="15.5" fill="#667085">A file-write primitive sets a session's privilege</text>
+  <text x="1008" y="573" font-size="15.5" fill="#667085">with no authorization (CWE-862). One write and</text>
+  <text x="1008" y="594" font-size="15.5" fill="#667085">the ambient key is poisoned.</text>
+
+  <rect x="984" y="640" width="552" height="150" rx="10" fill="#eaf6ee" stroke="#3f9d5a" stroke-width="1.5"/>
+  <text x="1008" y="676" font-size="17" font-weight="700" fill="#2f7d47">The fix</text>
+  <text x="1008" y="704" font-size="15" fill="#3a6b49">Authorize privileged tools on caller identity,</text>
+  <text x="1008" y="725" font-size="15" fill="#3a6b49">not a self-declared flag. Never let a file write</text>
+  <text x="1008" y="746" font-size="15" fill="#3a6b49">set a session key. Make the privilege check read</text>
+  <text x="1008" y="767" font-size="15" fill="#3a6b49">a value the write path cannot reach. Stop echoing the key.</text>
+
+  <text x="60" y="866" font-size="14" fill="#98a2b3">Public CTF (ARKX Mothership), played as a participant. No third-party data. github.com/le0n3das/ai-agent-attacks</text>
+</svg>
