@@ -2,8 +2,7 @@
 
 ![Attack chain: a trading desk with $1000 creates two $1000 orders that reserve no funds; the agent is told to skip its own balance check and fire both executions in parallel; both pass, the balance goes to minus $1000 and the flag unlocks; a negative control confirms a real check-then-debit race, and a separate path sets price to zero; the right panel shows the non-atomic check and debit and the client-supplied price](diagram.png)
 
-> ARKX Mothership, Expert track, level 8. Public CTF by CyberArk Labs, played as a participant.
-> The flag is a CTF value. No third-party data appears here.
+> ARKX Mothership, Expert track, level 8. Public CTF by CyberArk Labs.
 
 ---
 

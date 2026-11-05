@@ -1,6 +1,6 @@
 # AI Agent Attacks: a five-phase matrix from the ARKX Mothership
 
-Worked attacks against vulnerable LLM-agent levels on the ARKX "Mothership" ( ctf.arkx.ninja ), a public capture-the-flag platform by CyberArk Labs, played as an ordinary participant. Each level puts a language-model agent in front of tools that carry a security flaw. The goal is to find the flaw and recover a `flag-xxxx` value.
+Worked attacks against vulnerable LLM-agent levels on the ARKX "Mothership" ( ctf.arkx.ninja ), a public capture-the-flag platform by CyberArk Labs. Each level puts a language-model agent in front of tools that carry a security flaw. The goal is to find the flaw and recover a `flag-xxxx` value.
 
 Six levels are worked end to end here. Each technique below links to the level writeup where it showed up.
 
@@ -77,12 +77,6 @@ The organizing axis is five attack phases. MITRE ATLAS IDs sit in the last colum
 | Goal reached by business-logic abuse | The flag unlocks on a broken invariant, not a data read. | `DUAL FRAGMENTS DETECTED` fires with the balance at or below zero. | [E8](expert-08-the-heist/) | T0053 |
 
 The encoding channel is the Advanced 5 Phase 4 technique seen from the exfiltration side. The dict-key channel is the Expert 6 Phase 4 technique seen the same way.
-
-## Scope
-
-Six levels, worked end to end. These six produced every technique listed here. A full taxonomy of agent attacks would be larger.
-
-Played on a public CTF platform. No third-party or client data appears here.
 
 ## ATLAS tags
 

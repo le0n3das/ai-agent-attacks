@@ -2,8 +2,7 @@
 
 ![Attack chain: a permission error leaks the exact admin key; the privileged read tool ignores the session_id argument and reads an ambient key; the only state-writing tool is a cache updater gated by a self-declared SAFE flag that writes uploaded file content verbatim as the session key; uploading the leaked key escalates to the privileged session and reads the root flag; the right panel shows the self-asserted SAFE flag and the verbose error as the two gifts to the attacker](diagram.png)
 
-> ARKX Mothership, Expert track, level 7. Public CTF by CyberArk Labs, played as a participant.
-> The flag is a CTF value. No third-party data appears here.
+> ARKX Mothership, Expert track, level 7. Public CTF by CyberArk Labs.
 
 ---
 

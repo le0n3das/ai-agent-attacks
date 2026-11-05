@@ -2,8 +2,7 @@
 
 ![Attack chain: a connectivity tool returns only Online or Offline; a newline injects a second shell command past a denylist; a dead host plus a test command turns the one-bit reply into a yes/no oracle; the flag is read one hex character at a time with anchored grep and four bracket-class probes per digit, with the brute delegated to the agent's own loop; the right panel contrasts the in-band oracle with the out-of-band exfiltration the platform expected](diagram.png)
 
-> ARKX Mothership, Advanced track, level 9. Public CTF by CyberArk Labs, played as a participant.
-> The flag is a CTF value. No third-party data appears here.
+> ARKX Mothership, Advanced track, level 9. Public CTF by CyberArk Labs.
 
 ---
 

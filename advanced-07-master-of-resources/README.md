@@ -2,8 +2,7 @@
 
 ![Attack chain: an agent with no tools hands over its MCP server address; a browser is stopped by an Origin check that is not authentication; a scripted client with the platform session cookie completes the MCP handshake, lists a hidden unlock_flag tool and a locked flag resource, calls the tool with no arguments and reads the flag; the right panel shows that hiding a tool from the UI is not access control](diagram.png)
 
-> ARKX Mothership, Advanced track, level 7. Public CTF by CyberArk Labs, played as a participant.
-> The flag is a CTF value. No third-party data appears here.
+> ARKX Mothership, Advanced track, level 7. Public CTF by CyberArk Labs.
 
 ---
 

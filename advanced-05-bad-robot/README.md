@@ -2,8 +2,7 @@
 
 ![Attack chain: a math calculator tool backed by Python eval, two denylist controls mapped one probe at a time, the input substring filter beaten with runtime string construction and the numeric output filter beaten by encoding the file contents as one integer; the right panel shows the two controls and why each fails, ending in remote code execution in the tool runtime](diagram.png)
 
-> ARKX Mothership, Advanced track, level 5. Public CTF by CyberArk Labs, played as a participant.
-> The flag is a CTF value. No third-party data appears here.
+> ARKX Mothership, Advanced track, level 5. Public CTF by CyberArk Labs.
 
 ---
 

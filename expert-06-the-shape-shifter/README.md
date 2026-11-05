@@ -2,8 +2,7 @@
 
 ![Attack chain: a YAML configuration tool uses PyYAML's unsafe loader; harmless tag probes identify the library and prove the loader resolves Python object tags; a tool that prints only key names forces the attacker to put data into dict keys; eval inside a python/object/apply tag lists the directory and then reads the flag into a key; the right panel shows why safe_load is the fix and why echoing parsed keys is a second problem](diagram.png)
 
-> ARKX Mothership, Expert track, level 6. Public CTF by CyberArk Labs, played as a participant.
-> The flag is a CTF value. No third-party data appears here.
+> ARKX Mothership, Expert track, level 6. Public CTF by CyberArk Labs.
 
 ---
 
